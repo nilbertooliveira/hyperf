@@ -1,0 +1,58 @@
+version: '3.9'
+
+services:
+
+  # swoole image
+  app-hyperf:
+    image: "hyperf/hyperf:${PHP_VERSION}-alpine-v${ALPINE_VERSION}-swoole-v${SW_VERSION}"
+    container_name: app-hyperf
+    working_dir: /app
+    volumes:
+      - ./:/app
+    ports:
+      - "9501:9501"
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      args:
+        ALPINE_VERSION: ${ALPINE_VERSION}
+        SW_VERSION: ${SW_VERSION}
+        COMPOSER_VERSION: ${COMPOSER_VERSION}
+        PHP_VERSION: ${PHP_VERSION}
+        TIMEZONE: ${TIMEZONE}
+
+  redis-hyperf:
+    image: 'bitnami/redis:latest'
+    container_name: redis-hyperf
+    restart: unless-stopped
+    tty: true
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    volumes:
+      - redis-hyperf:/bitnami
+    ports:
+      - "6381:6379"
+
+  db-hyperf:
+    image: 'mysql:latest'
+    container_name: db-hyperf
+    command: --default-authentication-plugin=mysql_native_password
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "3308:3306"
+    environment:
+      MYSQL_DATABASE: api_hyperf
+      MYSQL_USER: dev
+      MYSQL_ROOT_PASSWORD: "Dev#123!@$"
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+      MYSQL_DEFAULT_AUTH: 'mysql_native_password'
+    volumes:
+      - dbdata-hyperf:/var/lib/mysql/
+
+volumes:
+  db-hyperf:
+  redis-hyperf:
+  dbdata-hyperf:
+    driver: local
