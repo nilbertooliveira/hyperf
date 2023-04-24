@@ -20,6 +20,9 @@ services:
         COMPOSER_VERSION: ${COMPOSER_VERSION}
         PHP_VERSION: ${PHP_VERSION}
         TIMEZONE: ${TIMEZONE}
+    networks:
+      app-network:
+        ipv4_address: 172.28.0.2
 
   redis-hyperf:
     image: 'bitnami/redis:latest'
@@ -32,6 +35,9 @@ services:
       - redis-hyperf:/bitnami
     ports:
       - "6381:6379"
+    networks:
+      app-network:
+        ipv4_address: 172.28.0.3
 
   db-hyperf:
     image: 'mysql:latest'
@@ -50,6 +56,20 @@ services:
       MYSQL_DEFAULT_AUTH: 'mysql_native_password'
     volumes:
       - dbdata-hyperf:/var/lib/mysql/
+    networks:
+      app-network:
+        ipv4_address: 172.28.0.4
+
+#Docker Networks
+networks:
+  app-network:
+    external: false
+    driver: bridge
+    name: app-network
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.28.0.0/16
 
 volumes:
   db-hyperf:

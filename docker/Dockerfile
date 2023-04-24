@@ -32,7 +32,7 @@ RUN set -ex \
     && php -m \
     && php --ri swoole \
     #  ---------- some config ----------
-    && cd /etc/php81 \
+    && cd /etc/php* \
     # - config PHP
     && { \
         echo "upload_max_filesize=128M"; \
@@ -55,6 +55,17 @@ WORKDIR /app
 
 COPY . /app
 RUN composer install --no-dev -o && php bin/hyperf.php
+
+# Create a group and user
+RUN addgroup -g 1000 www
+RUN adduser -u 1000 -s /bin/bash --disabled-password -G www www
+RUN chmod -R 775 "/usr/local/bin/composer"
+
+# Copy existing application directory permissions
+COPY --chown=www:www . /app
+
+# Change current user to www
+USER www
 
 EXPOSE 9501
 
