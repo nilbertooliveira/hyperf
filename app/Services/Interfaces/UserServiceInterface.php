@@ -14,4 +14,10 @@ interface UserServiceInterface
     public function create(RequestInterface $request) : array;
 
     public function logout(RequestInterface $request) : array;
+
+    public function show(int $id) : array;
+
+    public function all() : array;
+
+    public function update(RequestInterface $request, int $id);
 }

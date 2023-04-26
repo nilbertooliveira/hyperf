@@ -7,50 +7,36 @@ namespace App\Controller;
 use App\Services\Interfaces\UserServiceInterface;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Contract\RequestInterface;
-use Hyperf\HttpServer\Contract\ResponseInterface;
+use Psr\Http\Message\ResponseInterface;
 
-class AuthController
+class AuthController extends AbstractController
 {
     /**
-     * @var UserServiceInterface $userService
+     * @var UserServiceInterface
      */
     #[Inject]
     private UserServiceInterface $userService;
 
     /**
      * @param RequestInterface $request
-     * @param ResponseInterface $response
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return ResponseInterface
      */
-    public function login(RequestInterface $request, ResponseInterface $response): \Psr\Http\Message\ResponseInterface
+    public function login(RequestInterface $request): ResponseInterface
     {
         $result = $this->userService->login($request);
 
-        return $response->json($result)->withStatus($result['status_code']);
+        return $this->response->json($result)->withStatus($result['status_code']);
     }
+
 
     /**
      * @param RequestInterface $request
-     * @param ResponseInterface $response
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return ResponseInterface
      */
-    public function create(RequestInterface $request, ResponseInterface $response): \Psr\Http\Message\ResponseInterface
-    {
-        $result = $this->userService->create($request);
-
-        return $response->json($result)->withStatus($result['status_code']);
-    }
-
-    /**
-     * @param RequestInterface $request
-     * @param ResponseInterface $response
-     * @return \Psr\Http\Message\ResponseInterface
-     */
-    public function logout(RequestInterface $request, ResponseInterface $response): \Psr\Http\Message\ResponseInterface
+    public function logout(RequestInterface $request): ResponseInterface
     {
         $result = $this->userService->logout($request);
 
-        return $response->json($result)->withStatus($result['status_code']);
+        return $this->response->json($result)->withStatus($result['status_code']);
     }
-
 }

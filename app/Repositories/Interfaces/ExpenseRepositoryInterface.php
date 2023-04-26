@@ -13,4 +13,8 @@ interface ExpenseRepositoryInterface
     public function all() : Collection;
 
     public function create(RequestInterface $request): Expense;
+
+    public function update(RequestInterface $request, int $id) : Expense;
+
+    public function show(int $userId) : Collection;
 }

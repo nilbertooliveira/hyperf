@@ -7,24 +7,34 @@ namespace App\Controller;
 use App\Services\Interfaces\ExpenseServiceInterface;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Contract\RequestInterface;
-use Hyperf\HttpServer\Contract\ResponseInterface;
+use Psr\Http\Message\ResponseInterface;
 
-class ExpenseController
+class ExpenseController extends AbstractController
 {
 
     /**
-     * @var ExpenseServiceInterface $expenseService
+     * @var ExpenseServiceInterface
      */
     #[Inject]
     private ExpenseServiceInterface $expenseService;
 
-    public function index(RequestInterface $request, ResponseInterface $response): \Psr\Http\Message\ResponseInterface
+    public function all(): ResponseInterface
     {
-        return $response->json($this->expenseService->all());
+        return $this->response->json($this->expenseService->all());
     }
 
-    public function create(RequestInterface $request, ResponseInterface $response): \Psr\Http\Message\ResponseInterface
+    public function create(RequestInterface $request): ResponseInterface
     {
-        return $response->json($this->expenseService->create($request));
+        return $this->response->json($this->expenseService->create($request));
+    }
+
+    public function update(RequestInterface $request, int $id): ResponseInterface
+    {
+        return $this->response->json($this->expenseService->update($request, $id));
+    }
+
+    public function show(int $userId): ResponseInterface
+    {
+        return $this->response->json($this->expenseService->show($userId));
     }
 }

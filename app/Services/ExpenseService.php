@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Helpers\Helper;
+use App\Model\User;
 use App\Repositories\Interfaces\ExpenseRepositoryInterface;
 use App\Resource\ExpensiveResource;
 use App\Services\Interfaces\ExpenseServiceInterface;
 use App\Validators\ExpensiveValidator;
+use Carbon\Carbon;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\Validation\Contract\ValidatorFactoryInterface;
@@ -16,7 +18,7 @@ use Hyperf\Validation\Contract\ValidatorFactoryInterface;
 class ExpenseService implements ExpenseServiceInterface
 {
     /**
-     * @var ExpenseRepositoryInterface $expenseRepository
+     * @var ExpenseRepositoryInterface
      */
     #[Inject]
     private ExpenseRepositoryInterface $expenseRepository;
@@ -30,7 +32,11 @@ class ExpenseService implements ExpenseServiceInterface
      */
     public function all(): array
     {
-        return Helper::getResponse(true, $this->expenseRepository->all());
+        $expenses = $this->expenseRepository->all();
+
+        $expensiveResource = ExpensiveResource::collection($expenses);
+
+        return Helper::getResponse(true, $expensiveResource);
     }
 
     /**
@@ -43,16 +49,22 @@ class ExpenseService implements ExpenseServiceInterface
         if (!$result['success']) {
             return $result;
         }
-        /**
-         * @todo criar as validacoes
-         * @todo criar as polices
-         */
-        $expense = $this->expenseRepository->create($request);
 
-        //@todo fazer find pelo usuario logado e attach
-        //$user->expense()->attach();
+        try {
+            /** @var User $user */
+            $user = $request->getAttribute('user');
 
-        $expensiveResource = new ExpensiveResource($expense);
+            $expense = $this->expenseRepository->create($request);
+
+            $user->expense()->attach($expense->id, [
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ]);
+
+            $expensiveResource = new ExpensiveResource($expense);
+        } catch (\Throwable $e) {
+            return Helper::getResponse(false, $e->getMessage());
+        }
 
         return Helper::getResponse(true, $expensiveResource);
     }
@@ -72,5 +84,24 @@ class ExpenseService implements ExpenseServiceInterface
             return Helper::getResponse(false, $validator->errors()->getMessages());
         }
         return Helper::getResponse(true, null);
+    }
+
+    public function update(RequestInterface $request, int $id): array
+    {
+        // TODO: Implement update() method.
+    }
+
+    public function show(int $userId): array
+    {
+        try {
+            $expenses = $this->expenseRepository->show($userId);
+
+            $expensiveResource = ExpensiveResource::collection($expenses);
+
+        } catch (\Throwable $e) {
+            return Helper::getResponse(false, $e->getMessage());
+        }
+
+        return Helper::getResponse(true, $expensiveResource);
     }
 }

@@ -33,4 +33,14 @@ class ExpenseRepository implements ExpenseRepositoryInterface
     {
         return $this->expense->create($request->all());
     }
+
+    public function update(RequestInterface $request, int $id): Expense
+    {
+        // TODO: Implement update() method.
+    }
+
+    public function show(int $userId): Collection
+    {
+        return $this->expense->user()->findOrFail($userId);
+    }
 }

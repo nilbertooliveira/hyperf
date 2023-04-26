@@ -12,6 +12,7 @@ use Qbhy\HyperfAuth\Authenticatable;
  * @property int $id
  * @property string $name
  * @property string $email
+ * @property string $password
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  */
@@ -38,16 +39,28 @@ class User extends Model implements Authenticatable
 
     public function expense(): BelongsToMany
     {
-        return $this->belongsToMany(Expense::class, 'expense_user', 'expense_id',  'user_id');
+        return $this->belongsToMany(Expense::class, 'expense_user', null,  'expense_id');
     }
 
-    public function getId()
+    /**
+     * @return int
+     */
+    public function getId(): int
     {
-        // TODO: Implement getId() method.
+        return $this->id;
     }
 
+    /**
+     * @param $key
+     * @return Authenticatable|null
+     */
     public static function retrieveById($key): ?Authenticatable
     {
-        // TODO: Implement retrieveById() method.
+        /**
+         * @var User $user
+         */
+        $user = User::query()->find($key);
+
+        return $user;
     }
 }

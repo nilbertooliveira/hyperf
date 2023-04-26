@@ -9,6 +9,7 @@ use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Resource\UserResource;
 use App\Services\Interfaces\UserServiceInterface;
 use App\Validators\UserValidator;
+use Carbon\Carbon;
 use Hyperf\Database\Model\ModelNotFoundException;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Contract\RequestInterface;
@@ -33,6 +34,10 @@ class UserService implements UserServiceInterface
     #[Inject]
     protected ValidatorFactoryInterface $validationFactory;
 
+    /**
+     * @GetMapping(path="/login")
+     * @return array
+     */
     public function login(RequestInterface $request): array
     {
         $result = $this->validate($request, UserValidator::RULE_LOGIN);
@@ -41,12 +46,26 @@ class UserService implements UserServiceInterface
         }
 
         try {
-            $user = $this->userRepository->findByEmailAndPassword($request);
+            $user = $this->userRepository->findByEmail($request);
+
+            if (!password_verify($request->input('password'), $user->password)) {
+                return Helper::getResponse(false, "Senha incorreta!");
+            }
         } catch (ModelNotFoundException $e) {
             return Helper::getResponse(false, "Usuario nao encontrado!");
         }
 
-        $token = $this->authManager->guard('jwt')->login($user);
+        $ttl = Carbon::now()->addMinutes(120)->getTimestamp();
+        //$ttl = Carbon::now()->getTimestamp();
+
+        $token = $this->authManager
+            ->guard('jwt')
+            ->login($user, [
+                'uid'   => $user->id,
+                'iss'   => 'hyperf-auth',
+                'exp'   => $ttl,
+                'email' => $request->input('email')
+            ]);
 
         return Helper::getResponse(true, ['token' => $token]);
     }
@@ -99,5 +118,47 @@ class UserService implements UserServiceInterface
             $message = $e->getMessage();
         }
         return Helper::getResponse($result, $message);
+    }
+
+    public function show(int $id): array
+    {
+        try {
+            $user = $this->userRepository->show($id);
+
+            $userResource = new UserResource($user);
+
+        } catch (\Throwable $e) {
+            return Helper::getResponse(false, $e->getMessage());
+        }
+
+        return Helper::getResponse(true, $userResource);
+    }
+
+    public function all(): array
+    {
+        try {
+            $user = $this->userRepository->all();
+
+            $userResource = UserResource::collection($user);
+
+        } catch (\Throwable $e) {
+            return Helper::getResponse(false, $e->getMessage());
+        }
+
+        return Helper::getResponse(true, $userResource);
+    }
+
+    public function update(RequestInterface $request, int $id): array
+    {
+        try {
+            $user = $this->userRepository->update($request, $id);
+
+            $userResource = new UserResource($user);
+
+        } catch (\Throwable $e) {
+            return Helper::getResponse(false, $e->getMessage());
+        }
+
+        return Helper::getResponse(true, $userResource);
     }
 }
