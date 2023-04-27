@@ -5,24 +5,17 @@
 # @contact  group@hyperf.io
 # @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
 
+FROM hyperf/hyperf:8.2-alpine-v3.16-swoole-v5.0.2
+LABEL maintainer="Hyperf Developers <group@hyperf.io>" version="1.0" license="MIT" app.name="Hyperf"
 
 ##
 # ---------- env settings ----------
 ##
 # --build-arg timezone=Asia/Shanghai
-ARG TIMEZONE
-ARG PHP_VERSION
-ARG ALPINE_VERSION
-ARG SW_VERSION
-ARG APP_ENV
+ARG timezone
 
-FROM hyperf/hyperf:$PHP_VERSION-alpine-v$ALPINE_VERSION-swoole-v$SW_VERSION
-LABEL maintainer="Hyperf Developers <group@hyperf.io>" version="1.0" license="MIT" app.name="Hyperf"
-
-
-
-ENV TIMEZONE=$TIMEZONE \
-    APP_ENV=$APP_ENV \
+ENV TIMEZONE=${timezone:-"America/Sao_Paulo"} \
+    APP_ENV=prod \
     SCAN_CACHEABLE=(true)
 
 # update
@@ -70,5 +63,4 @@ USER www
 
 EXPOSE 9501
 
-#ENTRYPOINT ["php", "/app/bin/hyperf.php", "start"]
-ENTRYPOINT ["php", "/app/bin/hyperf.php", "server:watch"]
+ENTRYPOINT ["php", "/opt/www/bin/hyperf.php", "start"]
