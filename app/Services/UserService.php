@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Event\UserRegistered;
 use App\Helpers\Helper;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Resource\ExpensiveResource;
@@ -15,6 +16,7 @@ use Hyperf\Database\Model\ModelNotFoundException;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\Validation\Contract\ValidatorFactoryInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Qbhy\HyperfAuth\AuthManager;
 use Throwable;
 
@@ -35,6 +37,9 @@ class UserService implements UserServiceInterface
      */
     #[Inject]
     protected ValidatorFactoryInterface $validationFactory;
+
+    #[Inject]
+    protected EventDispatcherInterface $eventDispatcher;
 
     /**
      * @GetMapping(path="/login")
@@ -84,6 +89,8 @@ class UserService implements UserServiceInterface
             $user = $this->userRepository->create($request);
 
             $userResource = new UserResource($user);
+
+            $this->eventDispatcher->dispatch(new UserRegistered($user));
         } catch (Throwable $e) {
             return Helper::getResponse(false, $e->getMessage());
         }
