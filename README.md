@@ -8,7 +8,10 @@ Services, Repository, Rbac, Docker e outros padrões.
    `git clone git@github.com:nilbertooliveira/hyperf.git`
 
 2. Rodar o comando abaixo para fazer o build do projeto e pulling das images:
-   `docker-compose up -d`
+   ```
+   cp .env.example .env
+   docker-compose up -d
+   ```
 
 3. Instalar as dependências:
  ```
