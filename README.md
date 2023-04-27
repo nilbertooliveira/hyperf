@@ -20,7 +20,10 @@ Services, Repository, Rbac, Docker e outros padrões.
 docker-compose exec app-hyperf php bin/hyperf.php migrate
 docker-compose exec app-hyperf php bin/hyperf.php db:seed
 ```
-
+6. Utilizar o usuario com perfil admin abaixo e executar a request:
+```
+http://0.0.0.0:9501/set-policies
+ ```
 
 ##### Usuário admin:
 ```
@@ -32,7 +35,5 @@ nilberto.oliveira@onfly.com.br
 readonly@onfly.com.br
 123456
 ```
-## Utilizar o usuario com perfil admin e execuar a request abaixo
-http://0.0.0.0:9501/set-policies
 
 [Documentação Postman](https://documenter.getpostman.com/view/10569259/2s93eR5wJ3)
