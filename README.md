@@ -2,25 +2,27 @@
 
 Foi utlizado a arquitetura abaixo para concepção do projeto.
 
-Services, Repository, Rbac, Docker e outros padrões.
+Services, Repository, DI, Rbac, Docker e outros padrões.
 
 1. Clonar o repositório:
    `git clone git@github.com:nilbertooliveira/hyperf.git`
 
 2. Rodar o comando abaixo para fazer o build do projeto e pulling das images:
-   `docker-compose up -d`
-
-3. Instalar as dependências:
- ```
- docker-compose exec app-hyperf composer install
- ```
-
-6. Configurar a base de dados
+   ```
+   cp .env.example .env
+   composer install --ignore-platform-reqs --no-scripts
+   docker-compose up -d
+   ```
+3. Configurar a base de dados
 ```
 docker-compose exec app-hyperf php bin/hyperf.php migrate
 docker-compose exec app-hyperf php bin/hyperf.php db:seed
 ```
 
+4. Utilizar o usuario com perfil admin abaixo e executar a request:
+```
+http://0.0.0.0:9501/set-policies
+ ```
 
 ##### Usuário admin:
 ```
@@ -33,7 +35,4 @@ readonly@onfly.com.br
 123456
 ```
 
-## Utilizar o usuario com perfil admin e execuar a request abaixo
-http://0.0.0.0:9501/set-policies
-
-[Documentação Postman](https://documenter.getpostman.com/view/10569259/TWDcGadV)
+[Documentação Postman](https://documenter.getpostman.com/view/10569259/2s93eR6GF5)
