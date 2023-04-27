@@ -60,4 +60,11 @@ class UserController extends AbstractController
         return $this->response->json($result)->withStatus($result['status_code']);
     }
 
+    public function listExpenses(int $id): ResponseInterface
+    {
+        $result = $this->userService->listExpenses($id);
+
+        return $this->response->json($result)->withStatus($result['status_code']);
+    }
+
 }

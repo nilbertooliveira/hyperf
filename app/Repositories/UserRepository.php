@@ -53,7 +53,6 @@ class UserRepository implements UserRepositoryInterface
         return $this->user->query()->get();
     }
 
-
     /**
      * @param RequestInterface $request
      * @param int $id
@@ -72,5 +71,10 @@ class UserRepository implements UserRepositoryInterface
         $user->update($attributes);
 
         return $user->refresh();
+    }
+
+    public function listExpenses(int $id): Collection
+    {
+        return $this->user->findOrFail($id)->expense()->get();
     }
 }

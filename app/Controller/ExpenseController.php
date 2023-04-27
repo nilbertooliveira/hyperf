@@ -20,21 +20,22 @@ class ExpenseController extends AbstractController
 
     public function all(): ResponseInterface
     {
-        return $this->response->json($this->expenseService->all());
+        $result = $this->expenseService->all();
+
+        return $this->response->json($result)->withStatus($result['status_code']);
     }
 
     public function create(RequestInterface $request): ResponseInterface
     {
-        return $this->response->json($this->expenseService->create($request));
+        $result = $this->expenseService->create($request);
+
+        return $this->response->json($result)->withStatus($result['status_code']);
     }
 
     public function update(RequestInterface $request, int $id): ResponseInterface
     {
-        return $this->response->json($this->expenseService->update($request, $id));
-    }
+        $result = $this->expenseService->update($request, $id);
 
-    public function show(int $userId): ResponseInterface
-    {
-        return $this->response->json($this->expenseService->show($userId));
+        return $this->response->json($result)->withStatus($result['status_code']);
     }
 }

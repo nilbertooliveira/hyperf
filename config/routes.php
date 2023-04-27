@@ -13,9 +13,11 @@ declare(strict_types=1);
 
 use App\Controller\AuthController;
 use App\Controller\ExpenseController;
+use App\Controller\IndexController;
 use App\Controller\UserController;
 use App\Middleware\AuthMiddleware;
 use App\Middleware\PermissionMiddleware;
+use App\Services\GeneratePolicies;
 use Hyperf\HttpServer\Router\Router;
 
 Router::addRoute(['GET', 'POST', 'HEAD'], '/', 'App\Controller\IndexController@index');
@@ -32,15 +34,15 @@ Router::addGroup('/users/', function () {
     Router::put('update/{id}', [UserController::class, 'update'], ['middleware' => [AuthMiddleware::class]]);
     Router::get('show/{id}', [UserController::class, 'show'], ['middleware' => [AuthMiddleware::class]]);
     Router::get('all', [UserController::class, 'all'], ['middleware' => [AuthMiddleware::class]]);
+    Router::get('list-expenses/{id}', [UserController::class, 'listExpenses']);
 });
 
 Router::addGroup('/expenses/', function () {
     Router::get('all', [ExpenseController::class, 'all']);
     Router::post('create', [ExpenseController::class, 'create']);
     Router::put('update/{id}', [ExpenseController::class, 'update']);
-    Router::get('show/{userId}', [ExpenseController::class, 'show']);
 }, ['middleware' => [AuthMiddleware::class, PermissionMiddleware::class]]);
 
 Router::post('/set-policies', function () {
-    new \App\Services\GeneratePolicies();
+    new GeneratePolicies();
 });

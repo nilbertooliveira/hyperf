@@ -13,6 +13,4 @@ interface ExpenseServiceInterface
     public function create(RequestInterface $request): array;
 
     public function update(RequestInterface $request, int $id): array;
-
-    public function show(int $userId): array;
 }

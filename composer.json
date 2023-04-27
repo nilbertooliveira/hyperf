@@ -30,6 +30,7 @@
         "hyperf/guzzle": "~3.0.0",
         "hyperf/http-server": "^3.0",
         "hyperf/json-rpc": "~3.0.0",
+        "hyperf/kafka": "^3.0",
         "hyperf/logger": "~3.0.0",
         "hyperf/memory": "~3.0.0",
         "hyperf/model-cache": "~3.0.0",
@@ -42,8 +43,7 @@
         "hyperf/service-governance": "~3.0.0",
         "hyperf/tracer": "~3.0.0",
         "hyperf/validation": "^3.0",
-        "phpstan/phpstan": "^1.10",
-      "ext-oauth": "*"
+        "phpstan/phpstan": "^1.10"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.0",

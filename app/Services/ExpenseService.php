@@ -88,15 +88,10 @@ class ExpenseService implements ExpenseServiceInterface
 
     public function update(RequestInterface $request, int $id): array
     {
-        // TODO: Implement update() method.
-    }
-
-    public function show(int $userId): array
-    {
         try {
-            $expenses = $this->expenseRepository->show($userId);
+            $expense = $this->expenseRepository->update($request, $id);
 
-            $expensiveResource = ExpensiveResource::collection($expenses);
+            $expensiveResource = new ExpensiveResource($expense);
 
         } catch (\Throwable $e) {
             return Helper::getResponse(false, $e->getMessage());

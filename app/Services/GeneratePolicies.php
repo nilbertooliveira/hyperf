@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Donjan\Casbin\Enforcer;
+use Hyperf\DbConnection\Db;
 
 class GeneratePolicies
 {
@@ -23,6 +24,10 @@ class GeneratePolicies
         [
             'path'           => '/users/create',
             'request_method' => 'post'
+        ],
+        [
+            'path'           => '/user/list-expenses/*',
+            'request_method' => 'get'
         ],
         [
             'path'           => '/expenses/create',
@@ -48,6 +53,8 @@ class GeneratePolicies
 
     public function setPolicies(): void
     {
+        //Db::table('casbin_rule')->delete();
+
         $result = $this->createRolesForUser('nilberto.oliveira@onfly.com.br', 'admin');
 
         var_dump($result);

@@ -39,7 +39,7 @@ class User extends Model implements Authenticatable
 
     public function expense(): BelongsToMany
     {
-        return $this->belongsToMany(Expense::class, 'expense_user', null,  'expense_id');
+        return $this->belongsToMany(Expense::class, 'expense_user', 'user_id',  'expense_id', 'id');
     }
 
     /**

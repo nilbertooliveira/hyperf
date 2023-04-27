@@ -37,6 +37,6 @@ class Expense extends Model
 
     public function user(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'expense_user', null,  'user_id');
+        return $this->belongsToMany(User::class, 'expense_user', 'expense_id',  'user_id', 'id');
     }
 }

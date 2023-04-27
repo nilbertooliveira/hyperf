@@ -36,11 +36,15 @@ class ExpenseRepository implements ExpenseRepositoryInterface
 
     public function update(RequestInterface $request, int $id): Expense
     {
-        // TODO: Implement update() method.
-    }
+        $expense = $this->expense->query()->findOrFail($id);
 
-    public function show(int $userId): Collection
-    {
-        return $this->expense->user()->findOrFail($userId);
+        $attributes = [
+            'description' => $request->has('description') ? $request->input('description') : $expense->description,
+            'price'       => $request->has('price') ? $request->input('price') : $expense->price,
+        ];
+
+        $expense->update($attributes);
+
+        return $expense->refresh();
     }
 }

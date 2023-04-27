@@ -6,10 +6,12 @@ namespace App\Services;
 
 use App\Helpers\Helper;
 use App\Repositories\Interfaces\UserRepositoryInterface;
+use App\Resource\ExpensiveResource;
 use App\Resource\UserResource;
 use App\Services\Interfaces\UserServiceInterface;
 use App\Validators\UserValidator;
 use Carbon\Carbon;
+use Hyperf\Database\Model\Collection;
 use Hyperf\Database\Model\ModelNotFoundException;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Contract\RequestInterface;
@@ -160,5 +162,19 @@ class UserService implements UserServiceInterface
         }
 
         return Helper::getResponse(true, $userResource);
+    }
+
+    public function listExpenses(int $id): array
+    {
+        try {
+            $expenses = $this->userRepository->listExpenses($id);
+
+            $expensiveResource = ExpensiveResource::collection($expenses);
+
+        } catch (\Throwable $e) {
+            return Helper::getResponse(false, $e->getMessage());
+        }
+
+        return Helper::getResponse(true, $expensiveResource);
     }
 }

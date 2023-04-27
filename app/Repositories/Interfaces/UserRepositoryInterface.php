@@ -19,4 +19,6 @@ interface UserRepositoryInterface
     public function show(int $id) : User;
 
     public function all() : Collection;
+
+    public function listExpenses(int $id): Collection;
 }

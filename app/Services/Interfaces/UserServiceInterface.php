@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Interfaces;
 
+use Hyperf\Database\Model\Collection;
 use Hyperf\HttpServer\Contract\RequestInterface;
 
 interface UserServiceInterface
@@ -20,4 +21,6 @@ interface UserServiceInterface
     public function all() : array;
 
     public function update(RequestInterface $request, int $id);
+
+    public function listExpenses(int $id): array;
 }
