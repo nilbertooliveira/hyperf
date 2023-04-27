@@ -16,7 +16,7 @@
         "96qbhy/hyperf-auth": "^3.0",
         "donjan-deng/hyperf-casbin": "^3.22",
         "hyperf/amqp": "~3.0.0",
-        "hyperf/async-queue": "~3.0.0",
+        "hyperf/async-queue": "^3.0",
         "hyperf/cache": "~3.0.0",
         "hyperf/command": "~3.0.0",
         "hyperf/config": "~3.0.0",

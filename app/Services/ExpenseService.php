@@ -21,11 +21,19 @@ class ExpenseService implements ExpenseServiceInterface
      * @var ExpenseRepositoryInterface
      */
     #[Inject]
-    private ExpenseRepositoryInterface $expenseRepository;
+    protected ExpenseRepositoryInterface $expenseRepository;
 
+    /**
+     * @var ValidatorFactoryInterface
+     */
     #[Inject]
     protected ValidatorFactoryInterface $validationFactory;
 
+    /**
+     * @var EmailService
+     */
+    #[Inject]
+    protected EmailService $emailService;
 
     /**
      * @return array
@@ -62,6 +70,8 @@ class ExpenseService implements ExpenseServiceInterface
             ]);
 
             $expensiveResource = new ExpensiveResource($expense);
+
+            $this->emailService->push($expense);
         } catch (\Throwable $e) {
             return Helper::getResponse(false, $e->getMessage());
         }

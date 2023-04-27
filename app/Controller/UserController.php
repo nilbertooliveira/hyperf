@@ -15,7 +15,7 @@ class UserController extends AbstractController
      * @var UserServiceInterface
      */
     #[Inject]
-    private UserServiceInterface $userService;
+    protected UserServiceInterface $userService;
 
     /**
      * @param RequestInterface $request

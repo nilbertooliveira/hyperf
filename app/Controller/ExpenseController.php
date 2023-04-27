@@ -16,7 +16,7 @@ class ExpenseController extends AbstractController
      * @var ExpenseServiceInterface
      */
     #[Inject]
-    private ExpenseServiceInterface $expenseService;
+    protected ExpenseServiceInterface $expenseService;
 
     public function all(): ResponseInterface
     {

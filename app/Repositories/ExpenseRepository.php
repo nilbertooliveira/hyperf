@@ -17,7 +17,7 @@ class ExpenseRepository implements ExpenseRepositoryInterface
      * @var Expense
      */
     #[Inject]
-    private Expense $expense;
+    protected Expense $expense;
 
     public function all(): Collection
     {

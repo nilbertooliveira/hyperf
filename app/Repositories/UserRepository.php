@@ -16,7 +16,7 @@ class UserRepository implements UserRepositoryInterface
      * @var User
      */
     #[Inject]
-    private User $user;
+    protected User $user;
 
     /**
      * @param RequestInterface $request

@@ -11,12 +11,12 @@ use App\Resource\UserResource;
 use App\Services\Interfaces\UserServiceInterface;
 use App\Validators\UserValidator;
 use Carbon\Carbon;
-use Hyperf\Database\Model\Collection;
 use Hyperf\Database\Model\ModelNotFoundException;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\Validation\Contract\ValidatorFactoryInterface;
 use Qbhy\HyperfAuth\AuthManager;
+use Throwable;
 
 class UserService implements UserServiceInterface
 {
@@ -24,12 +24,12 @@ class UserService implements UserServiceInterface
      * @var UserRepositoryInterface
      */
     #[Inject]
-    private UserRepositoryInterface $userRepository;
+    protected UserRepositoryInterface $userRepository;
     /**
      * @var AuthManager
      */
     #[Inject]
-    private AuthManager $authManager;
+    protected AuthManager $authManager;
     /**
      * @var ValidatorFactoryInterface
      */
@@ -38,6 +38,7 @@ class UserService implements UserServiceInterface
 
     /**
      * @GetMapping(path="/login")
+     * @param RequestInterface $request
      * @return array
      */
     public function login(RequestInterface $request): array
@@ -83,7 +84,7 @@ class UserService implements UserServiceInterface
             $user = $this->userRepository->create($request);
 
             $userResource = new UserResource($user);
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             return Helper::getResponse(false, $e->getMessage());
         }
 
@@ -115,7 +116,7 @@ class UserService implements UserServiceInterface
         try {
             $result = $this->authManager->guard('jwt')->logout($token);
             $message = "Usuario deslogado com sucesso!";
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             $result = false;
             $message = $e->getMessage();
         }
@@ -129,7 +130,7 @@ class UserService implements UserServiceInterface
 
             $userResource = new UserResource($user);
 
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             return Helper::getResponse(false, $e->getMessage());
         }
 
@@ -143,7 +144,7 @@ class UserService implements UserServiceInterface
 
             $userResource = UserResource::collection($user);
 
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             return Helper::getResponse(false, $e->getMessage());
         }
 
@@ -157,7 +158,7 @@ class UserService implements UserServiceInterface
 
             $userResource = new UserResource($user);
 
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             return Helper::getResponse(false, $e->getMessage());
         }
 
@@ -171,7 +172,7 @@ class UserService implements UserServiceInterface
 
             $expensiveResource = ExpensiveResource::collection($expenses);
 
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             return Helper::getResponse(false, $e->getMessage());
         }
 
