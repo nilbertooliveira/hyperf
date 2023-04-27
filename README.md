@@ -1,39 +1,36 @@
-# Introduction
+## Ambiente Docker
 
-This is a skeleton application using the Hyperf framework. This application is meant to be used as a starting place for those looking to get their feet wet with Hyperf Framework.
+Foi utlizado a arquitetura abaixo para concepção do projeto.
 
-# Requirements
+Services, Repository, Rbac, Docker e outros padrões.
 
-Hyperf has some requirements for the system environment, it can only run under Linux and Mac environment, but due to the development of Docker virtualization technology, Docker for Windows can also be used as the running environment under Windows.
+1. Clonar o repositório:
+   `git clone git@github.com:nilbertooliveira/hyperf.git`
 
-The various versions of Dockerfile have been prepared for you in the [hyperf/hyperf-docker](https://github.com/hyperf/hyperf-docker) project, or directly based on the already built [hyperf/hyperf](https://hub.docker.com/r/hyperf/hyperf) Image to run.
+2. Rodar o comando abaixo para fazer o build do projeto e pulling das images:
+   `docker-compose up -d`
 
-When you don't want to use Docker as the basis for your running environment, you need to make sure that your operating environment meets the following requirements:  
+3. Instalar as dependências:
+ ```
+ docker-compose exec app-hyperf composer install
+ ```
 
- - PHP >= 8.0
- - Any of the following network engines
-   - Swoole PHP extension >= 4.5，with `swoole.use_shortname` set to `Off` in your `php.ini`
-   - Swow PHP extension (Beta)
- - JSON PHP extension
- - Pcntl PHP extension
- - OpenSSL PHP extension （If you need to use the HTTPS）
- - PDO PHP extension （If you need to use the MySQL Client）
- - Redis PHP extension （If you need to use the Redis Client）
- - Protobuf PHP extension （If you need to use the gRPC Server or Client）
+6. Configurar a base de dados
+```
+docker-compose exec app-hyperf php bin/hyperf.php migrate
+docker-compose exec app-hyperf php bin/hyperf.php db:seed
+```
 
-# Installation using Composer
 
-The easiest way to create a new Hyperf project is to use Composer. If you don't have it already installed, then please install as per the documentation.
+##### Usuário admin:
+```
+nilberto.oliveira@onfly.com.br
+123456
+```
+##### Usuário somente de leitura:
+```
+readonly@onfly.com.br
+123456
+```
 
-To create your new Hyperf project:
-
-$ composer create-project hyperf/hyperf-skeleton path/to/install
-
-Once installed, you can run the server immediately using the command below.
-
-$ cd path/to/install
-$ php bin/hyperf.php start
-
-This will start the cli-server on port `9501`, and bind it to all network interfaces. You can then visit the site at `http://localhost:9501/`
-
-which will bring up Hyperf default home page.
+[Documentação Postman](https://documenter.getpostman.com/view/10569259/TWDcGadV)

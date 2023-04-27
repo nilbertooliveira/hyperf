@@ -34,8 +34,6 @@ class EmailService
     {
         $this->driver = $this->driverFactory->get($this->queue);
 
-        var_dump($expense->toArray());
-
         return $this->driver->push(new EmailJob($expense->toArray()));
     }
 }

@@ -71,7 +71,7 @@ class ExpenseService implements ExpenseServiceInterface
 
             $expensiveResource = new ExpensiveResource($expense);
 
-            $this->emailService->push($expense);
+            //$this->emailService->push($expense);
         } catch (\Throwable $e) {
             return Helper::getResponse(false, $e->getMessage());
         }

@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use Donjan\Casbin\Enforcer;
-use Hyperf\DbConnection\Db;
 
 class GeneratePolicies
 {
@@ -18,7 +17,7 @@ class GeneratePolicies
      */
     private array $path = [
         [
-            'path'           => '/users/list',
+            'path'           => '/users/all',
             'request_method' => 'get',
         ],
         [
@@ -26,7 +25,15 @@ class GeneratePolicies
             'request_method' => 'post'
         ],
         [
-            'path'           => '/user/list-expenses/*',
+            'path'           => '/users/update/*',
+            'request_method' => 'put'
+        ],
+        [
+            'path'           => '/users/show/*',
+            'request_method' => 'get'
+        ],
+        [
+            'path'           => '/users/list-expenses/*',
             'request_method' => 'get'
         ],
         [
@@ -49,22 +56,22 @@ class GeneratePolicies
             'path'           => '/expenses/show/*',
             'request_method' => 'get'
         ],
+        [
+            'path'           => '/set-policies',
+            'request_method' => 'post'
+        ],
     ];
 
     public function setPolicies(): void
     {
-        //Db::table('casbin_rule')->delete();
+        $this->createRolesForUser('nilberto.oliveira@onfly.com.br', 'admin');
 
-        $result = $this->createRolesForUser('nilberto.oliveira@onfly.com.br', 'admin');
-
-        var_dump($result);
-
-        $this->createRolesForUser('nilberto.oliveira@onfly.com.br2', 'readonly');
+        $this->createRolesForUser('readonly@onfly.com.br', 'readonly');
 
         foreach ($this->path as $item) {
             if ($item['request_method'] === 'get') {
                 $this->createPermissionForRoles(
-                    'nilberto.oliveira@onfly.com.br2',
+                    'readonly@onfly.com.br',
                     $item['path'],
                     $item['request_method']
                 );

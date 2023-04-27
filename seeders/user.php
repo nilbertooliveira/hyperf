@@ -13,11 +13,25 @@ class User extends Seeder
      */
     public function run(): void
     {
-        $user = \App\Model\User::firstOrCreate(
+        \App\Model\User::firstOrCreate(
             [
-                'name' => 'Nilberto Oliveira',
                 'email' => 'nilberto.oliveira@onfly.com.br',
-                'password' => '123456'
+            ],
+            [
+                'name'     => 'Nilberto Oliveira',
+                'email'    => 'nilberto.oliveira@onfly.com.br',
+                'password' => password_hash('123456', PASSWORD_BCRYPT),
+            ]
+        );
+
+        \App\Model\User::firstOrCreate(
+            [
+                'email' => 'readonly@onfly.com.br',
+            ],
+            [
+                'name'     => 'Readonly',
+                'email'    => 'readonly@onfly.com.br',
+                'password' => password_hash('123456', PASSWORD_BCRYPT),
             ]
         );
     }

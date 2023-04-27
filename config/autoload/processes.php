@@ -13,6 +13,6 @@ declare(strict_types=1);
 use App\Process\EmailConsumer;
 
 return [
-    Hyperf\AsyncQueue\Process\ConsumerProcess::class,
-    EmailConsumer::class
+    /*Hyperf\AsyncQueue\Process\ConsumerProcess::class,
+    EmailConsumer::class*/
 ];

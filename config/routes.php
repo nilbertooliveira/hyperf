@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 use App\Controller\AuthController;
 use App\Controller\ExpenseController;
-use App\Controller\IndexController;
 use App\Controller\UserController;
 use App\Middleware\AuthMiddleware;
 use App\Middleware\PermissionMiddleware;
@@ -30,11 +29,11 @@ Router::get('/favicon.ico', function () {
 Router::addGroup('/users/', function () {
     Router::post('login', [AuthController::class, 'login']);
     Router::post('logout', [AuthController::class, 'logout'], ['middleware' => [AuthMiddleware::class]]);
-    Router::post('create', [UserController::class, 'create'], ['middleware' => [AuthMiddleware::class]]);
-    Router::put('update/{id}', [UserController::class, 'update'], ['middleware' => [AuthMiddleware::class]]);
-    Router::get('show/{id}', [UserController::class, 'show'], ['middleware' => [AuthMiddleware::class]]);
-    Router::get('all', [UserController::class, 'all'], ['middleware' => [AuthMiddleware::class]]);
-    Router::get('list-expenses/{id}', [UserController::class, 'listExpenses']);
+    Router::post('create', [UserController::class, 'create'], ['middleware' => [AuthMiddleware::class, PermissionMiddleware::class]]);
+    Router::put('update/{id}', [UserController::class, 'update'], ['middleware' => [AuthMiddleware::class, PermissionMiddleware::class]]);
+    Router::get('show/{id}', [UserController::class, 'show'], ['middleware' => [AuthMiddleware::class, PermissionMiddleware::class]]);
+    Router::get('all', [UserController::class, 'all'], ['middleware' => [AuthMiddleware::class, PermissionMiddleware::class]]);
+    Router::get('list-expenses/{id}', [UserController::class, 'listExpenses'], ['middleware' => [AuthMiddleware::class, PermissionMiddleware::class]]);
 });
 
 Router::addGroup('/expenses/', function () {
@@ -45,4 +44,4 @@ Router::addGroup('/expenses/', function () {
 
 Router::post('/set-policies', function () {
     new GeneratePolicies();
-});
+}, ['middleware' => [AuthMiddleware::class]]);
