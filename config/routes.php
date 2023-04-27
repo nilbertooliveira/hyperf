@@ -43,5 +43,8 @@ Router::addGroup('/expenses/', function () {
 }, ['middleware' => [AuthMiddleware::class, PermissionMiddleware::class]]);
 
 Router::post('/set-policies', function () {
+    /**
+     * @todo refatorar();
+     */
     new GeneratePolicies();
 }, ['middleware' => [AuthMiddleware::class]]);

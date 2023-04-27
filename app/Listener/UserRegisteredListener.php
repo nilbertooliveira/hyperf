@@ -27,6 +27,10 @@ class UserRegisteredListener implements ListenerInterface
     {
         $event->getUser()->toArray();
 
+        /**
+         * @todo sendEmail();
+         */
+
         var_dump($event->getUser()->toArray());
     }
 }
