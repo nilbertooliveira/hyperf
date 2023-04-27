@@ -2,7 +2,7 @@
 
 Foi utlizado a arquitetura abaixo para concepção do projeto.
 
-Services, Repository, Rbac, Docker e outros padrões.
+Services, Repository, DI, Rbac, Docker e outros padrões.
 
 1. Clonar o repositório:
    `git clone git@github.com:nilbertooliveira/hyperf.git`
