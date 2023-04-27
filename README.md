@@ -35,4 +35,4 @@ readonly@onfly.com.br
 123456
 ```
 
-[Documentação Postman](https://documenter.getpostman.com/view/10569259/2s93eR5wJ3)
+[Documentação Postman](https://documenter.getpostman.com/view/10569259/2s93eR6GF5)
