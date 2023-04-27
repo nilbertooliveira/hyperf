@@ -13,13 +13,13 @@ Services, Repository, DI, Rbac, Docker e outros padrões.
    composer install --ignore-platform-reqs --no-scripts
    docker-compose up -d
    ```
-4. Configurar a base de dados
+3. Configurar a base de dados
 ```
 docker-compose exec app-hyperf php bin/hyperf.php migrate
 docker-compose exec app-hyperf php bin/hyperf.php db:seed
 ```
 
-5. Utilizar o usuario com perfil admin abaixo e executar a request:
+4. Utilizar o usuario com perfil admin abaixo e executar a request:
 ```
 http://0.0.0.0:9501/set-policies
  ```
