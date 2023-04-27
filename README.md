@@ -10,20 +10,16 @@ Services, Repository, Rbac, Docker e outros padrões.
 2. Rodar o comando abaixo para fazer o build do projeto e pulling das images:
    ```
    cp .env.example .env
+   composer install --ignore-platform-reqs --no-scripts
    docker-compose up -d
    ```
-
-3. Instalar as dependências:
- ```
- docker-compose exec app-hyperf composer install
- ```
-
-6. Configurar a base de dados
+4. Configurar a base de dados
 ```
 docker-compose exec app-hyperf php bin/hyperf.php migrate
 docker-compose exec app-hyperf php bin/hyperf.php db:seed
 ```
-6. Utilizar o usuario com perfil admin abaixo e executar a request:
+
+5. Utilizar o usuario com perfil admin abaixo e executar a request:
 ```
 http://0.0.0.0:9501/set-policies
  ```
