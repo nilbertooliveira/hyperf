@@ -44,6 +44,7 @@
         "hyperf/service-governance": "~3.0.0",
         "hyperf/tracer": "~3.0.0",
         "hyperf/validation": "^3.0",
+        "phpmailer/phpmailer": "^6.8",
         "phpstan/phpstan": "^1.10"
     },
     "require-dev": {

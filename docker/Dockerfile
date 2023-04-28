@@ -25,6 +25,8 @@ ENV TIMEZONE=$TIMEZONE \
     APP_ENV=$APP_ENV \
     SCAN_CACHEABLE=(true)
 
+RUN apk add ssmtp
+
 # update
 RUN set -ex \
     # show php version and extensions

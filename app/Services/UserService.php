@@ -92,7 +92,7 @@ class UserService implements UserServiceInterface
 
             $this->eventDispatcher->dispatch(new UserRegistered($user));
         } catch (Throwable $e) {
-            return Helper::getResponse(false, $e->getMessage());
+            return Helper::getResponse(false, Helper::getError($e));
         }
 
         return Helper::getResponse(true, $userResource);
