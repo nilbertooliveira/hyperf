@@ -28,10 +28,7 @@ class PermissionMiddleware implements MiddlewareInterface
         $path = strtolower($server['path_info']);
         $method = strtolower($server['request_method']);
 
-        var_dump($user->email, $path, $method);
-
         if (Enforcer::enforce($user->email, $path, $method)) {
-
 
             return $handler->handle($request);
         }
