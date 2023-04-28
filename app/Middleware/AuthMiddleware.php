@@ -39,9 +39,7 @@ class AuthMiddleware implements MiddlewareInterface
 
         $guard = $this->authManager->guard('jwt');
 
-        /**
-         * @var User $user
-         */
+        /** @var User $user */
         $user = $guard->user($token);
 
         $request = $request->withAttribute('user', $user);
