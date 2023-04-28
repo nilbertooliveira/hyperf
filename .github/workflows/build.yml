@@ -20,7 +20,7 @@ jobs:
         with:
           args: --ignore-platform-reqs
           quiet: yes
-          command: composer update --ignore-platform-reqs --quiet
+          command: update --ignore-platform-reqs --quiet
 
 
 #      - name: Analyse code
