@@ -11,12 +11,15 @@ jobs:
 
       - name: Install dependencies
         uses: php-actions/composer@v6
-        run: composer analyse
         with:
           dev: no
           args: --profile --ignore-platform-reqs
 
+      - name: Analyse code
+        run: composer analyse
+
+      - name: Tests
+        run: composer test
+
       - name: Build
         run: cp -rf .github/workflows/Dockerfile . && docker build -t hyperf .
-
-
