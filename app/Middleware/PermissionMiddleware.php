@@ -29,7 +29,6 @@ class PermissionMiddleware implements MiddlewareInterface
         $method = strtolower($server['request_method']);
 
         if (Enforcer::enforce($user->email, $path, $method)) {
-
             return $handler->handle($request);
         }
         throw new UnauthorizedException("Nao autorizado a realizar esta operacao!");
