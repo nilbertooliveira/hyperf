@@ -53,8 +53,8 @@ WORKDIR /app
 RUN chmod -R 775 .
 
 # Composer Cache
-# COPY ./composer.* /app/
-# RUN composer install --no-dev --no-scripts
+COPY ./composer.* /app/
+RUN composer install --no-dev --no-scripts
 
 COPY . /app
 RUN composer install --no-dev -o && php bin/hyperf.php
