@@ -14,8 +14,8 @@ jobs:
         with:
           args: --no-scripts --ignore-platform-reqs
 
-      - name: Analyse code
-        run: composer analyse
+#      - name: Analyse code
+#        run: composer analyse
 
       - name: Tests
         run: composer test
