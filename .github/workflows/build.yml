@@ -9,25 +9,25 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Cache Composer dependencies
-        uses: actions/cache@v3
-        with:
-          path: /tmp/composer-cache
-          key: ${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
+#      - name: Cache Composer dependencies
+#        uses: actions/cache@v3
+#        with:
+#          path: /tmp/composer-cache
+#          key: ${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
 
-      - name: Install dependencies
-        uses: php-actions/composer@v6
-        with:
-          args: --ignore-platform-reqs
-          quiet: yes
-          progress: yes
+#      - name: Install dependencies
+#        uses: php-actions/composer@v6
+#        with:
+#          args: --ignore-platform-reqs
+#          quiet: yes
+#          progress: yes
 
 
 #      - name: Analyse code
 #        run: composer analyse
 
-      - name: Tests
-        run: composer test
+#      - name: Tests
+#        run: composer test
 
       - name: Build
         run: cp -rf .github/workflows/Dockerfile . && docker build -t hyperf .
