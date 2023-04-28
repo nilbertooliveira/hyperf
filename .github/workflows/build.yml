@@ -18,7 +18,9 @@ jobs:
       - name: Install dependencies
         uses: php-actions/composer@v6
         with:
-          args: --no-scripts --ignore-platform-reqs
+          args: --ignore-platform-reqs
+          quiet: yes
+          command: composer update --ignore-platform-reqs --no-scripts --quiet
 
 
 #      - name: Analyse code
