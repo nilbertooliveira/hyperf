@@ -20,7 +20,7 @@ jobs:
         with:
           args: --ignore-platform-reqs
           quiet: yes
-          command: update --ignore-platform-reqs --quiet
+          progress: yes
 
 
 #      - name: Analyse code
