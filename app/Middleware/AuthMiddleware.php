@@ -19,7 +19,7 @@ class AuthMiddleware implements MiddlewareInterface
      * @var AuthManager
      */
     #[Inject]
-    private AuthManager $authManager;
+    protected AuthManager $authManager;
 
     /**
      * @param ServerRequestInterface $request
@@ -45,6 +45,8 @@ class AuthMiddleware implements MiddlewareInterface
         $user = $guard->user($token);
 
         $request = $request->withAttribute('user', $user);
+
+        $request = $request->withAttribute('token', $token);
 
         return $handler->handle($request);
     }

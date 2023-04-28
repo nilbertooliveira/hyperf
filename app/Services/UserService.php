@@ -114,11 +114,7 @@ class UserService implements UserServiceInterface
 
     public function logout(RequestInterface $request): array
     {
-        $token = $request->header('Authorization');
-
-        $token = is_null($token) ? '' : $token;
-
-        $token = str_replace(["Bearer", "bearer", " "], "", $token);
+        $token = $request->getAttribute('token');
 
         try {
             $result = $this->authManager->guard('jwt')->logout($token);
