@@ -15,12 +15,12 @@ class User extends Seeder
     {
         \App\Model\User::firstOrCreate(
             [
-                'email' => 'nilberto.oliveira@onfly.com.br',
+                'email' => \Hyperf\Support\env('USER_EMAIL'),
             ],
             [
-                'name'     => 'Nilberto Oliveira',
-                'email'    => 'nilberto.oliveira@onfly.com.br',
-                'password' => password_hash('123456', PASSWORD_BCRYPT),
+                'name'     => \Hyperf\Support\env('USER_NAME'),
+                'email'    => \Hyperf\Support\env('USER_EMAIL'),
+                'password' => password_hash(\Hyperf\Support\env('USER_PASSWORD'), PASSWORD_BCRYPT),
             ]
         );
 

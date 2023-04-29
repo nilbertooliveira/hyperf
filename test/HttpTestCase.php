@@ -9,6 +9,7 @@ declare(strict_types=1);
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
+
 namespace HyperfTest;
 
 use Hyperf\Testing\Client;
@@ -38,5 +39,35 @@ abstract class HttpTestCase extends TestCase
     public function __call($name, $arguments)
     {
         return $this->client->{$name}(...$arguments);
+    }
+
+    /**
+     * @return array
+     */
+    public function getDadosLogin(): array
+    {
+        return [
+            "email"    => \Hyperf\Support\env('USER_EMAIL'),
+            "password" => \Hyperf\Support\env('USER_PASSWORD'),
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function getLogin(): array
+    {
+        $options = $this->getDadosLogin();
+
+        return $this->client->json('/users/login', $options);
+    }
+
+    public function getHeaders(array $responseLogin): array
+    {
+        return [
+            'Authorization'   => "Bearer {$responseLogin['data']['token']}",
+            'Accept-Encoding' => 'application/json',
+            'Accept'          => 'application/json'
+        ];
     }
 }
